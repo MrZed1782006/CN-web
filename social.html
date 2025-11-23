@@ -304,12 +304,68 @@
     color: var(--text-muted) !important;
   }
 
+  /* ===== MOBILE (phones, <= 576px) ===== */
+  @media (max-width: 576px) {
+    body {
+      padding-top: 64px;   /* navbar thoda tight */
+      padding-bottom: 82px; /* bottom nav ke liye space */
+    }
+
+    .navbar .container-fluid {
+      padding-inline: 0.75rem;
+    }
+
+    .stories-wrapper,
+    .create-post-card,
+    .feed-card {
+      border-radius: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .sidebar-card {
+      border-radius: 0.9rem;
+    }
+
+    .feed-image-placeholder {
+      height: 190px;
+    }
+  }
+
+  /* ===== TABLET (577px – 991px) ===== */
+  @media (min-width: 577px) && (max-width: 991.98px) {
+    body {
+      padding-top: 72px;
+      padding-bottom: 90px;
+    }
+
+    .container-fluid {
+      padding-inline: 1.5rem;
+    }
+
+    .feed-image-placeholder {
+      height: 210px;
+    }
+  }
+
+  /* ===== DESKTOP (>= 992px) ===== */
   @media (min-width: 992px) {
     body {
       padding-bottom: 0;
     }
+
+    .container-fluid {
+      padding-inline: 2.5rem;
+    }
   }
-</style>
+
+  /* ===== LARGE DESKTOP (>= 1200px) ===== */
+  @media (min-width: 1200px) {
+    .container-fluid {
+      max-width: 1200px;
+      margin-inline: auto;
+    }
+  }
+  </style>
 
 </head>
 <body>
