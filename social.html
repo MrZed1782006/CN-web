@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Media App</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  />
+
+  <style>
+  :root {
+    --accent: #6366f1;
+    --accent-soft: #eef2ff;
+    --accent-soft-strong: #e0e7ff;
+    --card-bg: #ffffff;
+    --card-border: #e5e7eb;
+    --body-bg-top: #eef2ff;
+    --body-bg-bottom: #f9fafb;
+    --text-main: #0f172a;
+    --text-muted: #6b7280;
+  }
+
+  body {
+    background: radial-gradient(circle at top, var(--body-bg-top), var(--body-bg-bottom));
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding-top: 72px;
+    padding-bottom: 70px;
+    color: var(--text-main);
+  }
+
+  .navbar {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    backdrop-filter: blur(14px);
+  }
+
+  .navbar-brand span {
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .nav-search {
+    max-width: 320px;
+  }
+
+  .nav-search .form-control {
+    box-shadow: none;
+  }
+
+  .nav-search .form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--accent-soft-strong);
+  }
+
+  /* Primary accent overrides */
+  .bg-primary {
+    background-color: var(--accent) !important;
+  }
+
+  .text-primary {
+    color: var(--accent) !important;
+  }
+
+  .btn-primary {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 8px 18px rgba(79, 70, 229, 0.35);
+  }
+
+  .btn-primary:hover {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+    box-shadow: 0 10px 24px rgba(79, 70, 229, 0.45);
+  }
+
+  .btn-light {
+    background-color: #f9fafb;
+    border-color: #e5e7eb;
+  }
+
+  .btn-light:hover {
+    background-color: #eef2ff;
+    border-color: #e0e7ff;
+  }
+
+  .stories-wrapper {
+    background: var(--card-bg);
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--card-border);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.04);
+  }
+
+  .stories-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.75rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .story-item {
+    text-align: center;
+    min-width: 72px;
+  }
+
+  .story-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    padding: 2px;
+    overflow: hidden;
+    margin: 0 auto 0.25rem;
+    background: linear-gradient(135deg, #a5b4fc, #c4b5fd);
+  }
+
+  .story-avatar-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .story-name {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+
+  .create-post-card {
+    border-radius: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.05);
+    margin-bottom: 1rem;
+  }
+
+  .create-post-input {
+    border-radius: 1rem;
+    background-color: #f3f4ff;
+    border: 1px solid transparent;
+    padding-left: 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+
+  .create-post-input:focus {
+    background-color: #ffffff;
+    border-color: var(--accent-soft-strong);
+    box-shadow: 0 0 0 1px var(--accent-soft-strong);
+  }
+
+  textarea.create-post-input {
+    border-radius: 1rem;
+    resize: vertical;
+  }
+
+  .feed-card {
+    border-radius: 1rem;
+    background: var(--card-bg);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.05);
+    margin-bottom: 1rem;
+    border: 1px solid var(--card-border);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+
+  .feed-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    border-color: var(--accent-soft-strong);
+  }
+
+  .feed-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at top, #bfdbfe, #dbeafe);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .feed-image-placeholder {
+    background: linear-gradient(135deg, #e5e7eb, #ffffff);
+    height: 220px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .feed-image-placeholder img {
+    display: block;
+  }
+
+  .post-actions button {
+    font-size: 0.9rem;
+  }
+
+  .post-actions .btn.liked {
+    background-color: var(--accent-soft);
+    border-color: var(--accent-soft-strong);
+  }
+
+  .sidebar-card {
+    border-radius: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+    margin-bottom: 1rem;
+  }
+
+  .suggested-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .tag-pill {
+    border-radius: 999px;
+    background: #eef2ff;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin: 0.15rem;
+    color: #4b5563;
+  }
+
+  .ad-banner {
+    border-radius: 0.75rem;
+    background: radial-gradient(circle at top left, #fee2e2, #f97316);
+    padding: 0.75rem 1rem;
+    color: #111827;
+    font-size: 0.9rem;
+  }
+
+  .ad-banner .btn {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: transparent;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid rgba(148, 163, 184, 0.3);
+    z-index: 1030;
+    backdrop-filter: blur(12px);
+  }
+
+  .bottom-nav .nav-link {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+
+  .bottom-nav .nav-link.active {
+    color: var(--accent);
+  }
+
+  .bottom-nav .nav-link.active .bi {
+    transform: translateY(-1px);
+  }
+
+  .bottom-nav .bi {
+    display: block;
+    font-size: 1.2rem;
+  }
+
+  .stories-list::-webkit-scrollbar {
+    height: 4px;
+  }
+  .stories-list::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.18);
+    border-radius: 999px;
+  }
+
+  small.text-muted {
+    color: var(--text-muted) !important;
+  }
+
+  @media (min-width: 992px) {
+    body {
+      padding-bottom: 0;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <!-- TOP NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <div class="container-fluid px-3 px-md-4">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2" style="width:32px;height:32px;">
+          <i class="bi bi-chat-dots"></i>
+        </div>
+        <span>SocialX</span>
+      </a>
+
+      <!-- Search (desktop) -->
+      <form class="d-none d-md-flex ms-3 flex-grow-1 justify-content-center" onsubmit="return false">
+        <div class="input-group nav-search">
+          <span class="input-group-text border-0 bg-light"><i class="bi bi-search"></i></span>
+          <input
+            id="searchPostsInput"
+            type="text"
+            class="form-control border-0 bg-light"
+            placeholder="Search posts"
+          >
+        </div>
+      </form>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="d-none d-lg-flex align-items-center gap-3 ms-3">
+        <button class="btn btn-light rounded-circle p-2">
+          <i class="bi bi-bell"></i>
+        </button>
+        <button class="btn btn-light rounded-circle p-2">
+          <i class="bi bi-chat-left-text"></i>
+        </button>
+        <div class="dropdown">
+          <button class="btn btn-light d-flex align-items-center rounded-pill px-2" data-bs-toggle="dropdown">
+            <div class="feed-user-avatar me-2 current-user-avatar">MH</div>
+            <span class="d-none d-xl-inline">Profile</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">My Profile</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item logout-btn" href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SIDE MENU (Hamburger Offcanvas) -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sideMenu">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Menu</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="d-flex align-items-center mb-3">
+        <div class="feed-user-avatar me-2 current-user-avatar">MH</div>
+        <div>
+          <div class="fw-semibold sidebar-name">Muzammil</div>
+          <small class="text-muted sidebar-username">@username</small>
+        </div>
+      </div>
+      <hr>
+      <ul class="list-unstyled">
+        <li class="mb-2"><a href="#" class="text-decoration-none text-dark"><i class="bi bi-person me-2"></i>Account settings</a></li>
+        <li class="mb-2"><a href="#" class="text-decoration-none text-dark"><i class="bi bi-shield-lock me-2"></i>Privacy</a></li>
+        <li class="mb-2"><a href="#" class="text-decoration-none text-dark"><i class="bi bi-bookmark me-2"></i>Saved posts</a></li>
+        <li class="mb-2"><a href="#" class="text-decoration-none text-dark"><i class="bi bi-question-circle me-2"></i>Help center</a></li>
+        <li class="mt-3"><a href="#" class="text-decoration-none text-danger logout-btn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="container-fluid mt-3">
+    <div class="row justify-content-center">
+      <!-- MAIN COLUMN -->
+      <div class="col-12 col-lg-7 col-xl-6 px-2 px-md-3">
+
+        <!-- STORIES SECTION -->
+        <div class="stories-wrapper">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0">Stories</h6>
+            <small class="text-primary">View all</small>
+          </div>
+          <div class="stories-list">
+            <div class="story-item">
+              <div class="story-avatar">
+                <div class="story-avatar-inner">
+                  <i class="bi bi-plus"></i>
+                </div>
+              </div>
+              <div class="story-name">Your Story</div>
+            </div>
+
+            <div class="story-item">
+              <div class="story-avatar">
+                <div class="story-avatar-inner">AS</div>
+              </div>
+              <div class="story-name">Ayesha</div>
+            </div>
+
+            <div class="story-item">
+              <div class="story-avatar">
+                <div class="story-avatar-inner">HM</div>
+              </div>
+              <div class="story-name">Hamza</div>
+            </div>
+
+            <div class="story-item">
+              <div class="story-avatar">
+                <div class="story-avatar-inner">ZR</div>
+              </div>
+              <div class="story-name">Zara</div>
+            </div>
+
+            <div class="story-item">
+              <div class="story-avatar">
+                <div class="story-avatar-inner">RK</div>
+              </div>
+              <div class="story-name">Rizwan</div>
+            </div>
+
+            <div class="story-item">
+              <div class="story-avatar">
+                <div class="story-avatar-inner">AL</div>
+              </div>
+              <div class="story-name">Ali</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CREATE POST BOX -->
+        <div class="card create-post-card">
+          <div class="card-body">
+            <div class="d-flex align-items-start mb-3">
+              <div class="feed-user-avatar me-2 current-user-avatar">MH</div>
+              <div class="flex-grow-1">
+                <!-- Text post -->
+                <textarea
+                  id="postText"
+                  class="form-control create-post-input mb-2"
+                  rows="2"
+                  placeholder="What's on your mind?"
+                ></textarea>
+
+                <!-- Image URL (optional) -->
+                <input
+                  id="postImageUrl"
+                  type="text"
+                  class="form-control form-control-sm mb-2"
+                  placeholder="Paste image URL (optional)"
+                />
+
+                <!-- Simple emoji row (optional) -->
+                <div class="d-flex flex-wrap gap-1 small">
+                  <button type="button" class="btn btn-light btn-sm emoji-btn">😊</button>
+                  <button type="button" class="btn btn-light btn-sm emoji-btn">😂</button>
+                  <button type="button" class="btn btn-light btn-sm emoji-btn">🔥</button>
+                  <button type="button" class="btn btn-light btn-sm emoji-btn">😍</button>
+                  <button type="button" class="btn btn-light btn-sm emoji-btn">👍</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between flex-wrap gap-2">
+              <button class="btn btn-sm btn-light">
+                <i class="bi bi-image me-1"></i> Photo/Video
+              </button>
+              <button class="btn btn-sm btn-light">
+                <i class="bi bi-broadcast-pin me-1"></i> Live
+              </button>
+              <button id="createPostBtn" class="btn btn-sm btn-primary">
+                Post
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SORT & FILTER CONTROLS -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="mb-0">Feed</h6>
+          <select
+            id="sortFilter"
+            class="form-select form-select-sm"
+            style="width:auto; min-width: 150px;"
+          >
+            <option value="latest" selected>Latest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="liked">Most liked</option>
+          </select>
+        </div>
+
+        <!-- FEED POSTS (initial seed, will be converted to localStorage structure) -->
+        <div id="feedContainer">
+          <div class="card feed-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex">
+                  <div class="feed-user-avatar me-2">AS</div>
+                  <div>
+                    <div class="fw-semibold">Ayesha Siddiqui</div>
+                    <small class="text-muted">2 hrs ago • Karachi</small>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start gap-1">
+                  <button class="btn btn-sm btn-light rounded-circle">
+                    <i class="bi bi-three-dots"></i>
+                  </button>
+                  <button class="btn btn-sm btn-light rounded-circle delete-post-btn" title="Delete post">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <p class="mb-2">
+                Perfect weather today ☁️✨ Working on a new UI design. What do you think?
+              </p>
+              <div class="feed-image-placeholder mb-2"></div>
+              <div class="d-flex justify-content-between text-muted small mb-2">
+                <span>120 likes</span>
+                <span>18 comments • 4 shares</span>
+              </div>
+              <hr class="my-2" />
+              <div class="d-flex justify-content-between post-actions">
+                <button class="btn btn-sm btn-light flex-fill me-1">
+                  <i class="bi bi-hand-thumbs-up me-1"></i>Like
+                </button>
+                <button class="btn btn-sm btn-light flex-fill mx-1">
+                  <i class="bi bi-chat-left me-1"></i>Comment
+                </button>
+                <button class="btn btn-sm btn-light flex-fill ms-1">
+                  <i class="bi bi-arrow-90deg-right me-1"></i>Share
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card feed-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex">
+                  <div class="feed-user-avatar me-2">HM</div>
+                  <div>
+                    <div class="fw-semibold">Hamza Malik</div>
+                    <small class="text-muted">5 hrs ago • Lahore</small>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start gap-1">
+                  <button class="btn btn-sm btn-light rounded-circle">
+                    <i class="bi bi-three-dots"></i>
+                  </button>
+                  <button class="btn btn-sm btn-light rounded-circle delete-post-btn" title="Delete post">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <p class="mb-2">
+                New project launched 🚀 #webdesign #frontend #bootstrap
+              </p>
+              <div class="d-flex gap-2 flex-wrap small">
+                <span class="tag-pill">#UI</span>
+                <span class="tag-pill">#Design</span>
+                <span class="tag-pill">#Code</span>
+              </div>
+              <div class="d-flex justify-content-between text-muted small my-2">
+                <span>87 likes</span>
+                <span>12 comments • 1 share</span>
+              </div>
+              <hr class="my-2" />
+              <div class="d-flex justify-content-between post-actions">
+                <button class="btn btn-sm btn-light flex-fill me-1">
+                  <i class="bi bi-hand-thumbs-up me-1"></i>Like
+                </button>
+                <button class="btn btn-sm btn-light flex-fill mx-1">
+                  <i class="bi bi-chat-left me-1"></i>Comment
+                </button>
+                <button class="btn btn-sm btn-light flex-fill ms-1">
+                  <i class="bi bi-arrow-90deg-right me-1"></i>Share
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <div class="col-lg-4 col-xl-3 d-none d-lg-block px-2 px-md-3">
+
+        <div class="card sidebar-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0">People you may know</h6>
+              <small class="text-primary">See all</small>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center">
+                <div class="suggested-avatar me-2">AL</div>
+                <div>
+                  <div class="small fw-semibold">Ali Raza</div>
+                  <small class="text-muted">Mutual: 8</small>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-outline-primary rounded-pill">Add</button>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center">
+                <div class="suggested-avatar me-2">ZR</div>
+                <div>
+                  <div class="small fw-semibold">Zara Khan</div>
+                  <small class="text-muted">Mutual: 3</small>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-outline-primary rounded-pill">Add</button>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center">
+                <div class="suggested-avatar me-2">OM</div>
+                <div>
+                  <div class="small fw-semibold">Omer J.</div>
+                  <small class="text-muted">Mutual: 1</small>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-outline-primary rounded-pill">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card sidebar-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0">Trending</h6>
+              <small class="text-primary">Explore</small>
+            </div>
+
+            <div class="mb-2">
+              <div class="small fw-semibold">#frontend</div>
+              <small class="text-muted">12.3K posts • Hot</small>
+            </div>
+
+            <div class="mb-2">
+              <div class="small fw-semibold">#gamingnight</div>
+              <small class="text-muted">4.8K posts • Trending</small>
+            </div>
+
+            <div class="mb-2">
+              <div class="small fw-semibold">#travelblog</div>
+              <small class="text-muted">9.1K posts • Popular</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card sidebar-card">
+          <div class="card-body">
+            <h6 class="mb-2">Sponsored</h6>
+            <div class="ad-banner">
+              <div class="fw-semibold mb-1">Boost your brand today</div>
+              <div class="small mb-2">Run targeted ads and reach more people using SocialX Ads Manager.</div>
+              <button class="btn btn-sm btn-light rounded-pill">
+                Learn more
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV (Mobile) -->
+  <nav class="bottom-nav d-lg-none">
+    <div class="nav nav-pills nav-justified small">
+      <a class="nav-link active" href="#">
+        <i class="bi bi-house-door"></i>
+        Home
+      </a>
+      <a class="nav-link" href="#">
+        <i class="bi bi-search"></i>
+        Explore
+      </a>
+      <a class="nav-link" href="#">
+        <i class="bi bi-play-btn"></i>
+        Reels
+      </a>
+      <a class="nav-link" href="#">
+        <i class="bi bi-chat-dots"></i>
+        Inbox
+      </a>
+      <a class="nav-link" href="#">
+        <i class="bi bi-person"></i>
+        Profile
+      </a>
+    </div>
+  </nav>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- PAGE JS -->
+  <script>
+    // 🔐 Protect Page: Only logged-in users allowed
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!isLoggedIn || !user) {
+      // Not logged in → go back to login
+      window.location.href = "login.html";
+    } else {
+      // Set initials
+      const initials = user.name
+        .split(" ")
+        .filter(Boolean)
+        .map(w => w[0].toUpperCase())
+        .join("");
+
+      // Update all current-user avatars
+      document.querySelectorAll(".current-user-avatar").forEach(el => {
+        el.textContent = initials;
+      });
+
+      // Update name & username in sidebar
+      const sidebarName = document.querySelector(".sidebar-name");
+      const sidebarUsername = document.querySelector(".sidebar-username");
+
+      if (sidebarName) sidebarName.textContent = user.name;
+      if (sidebarUsername) sidebarUsername.textContent = "@" + (user.name.split(" ")[0] || "user").toLowerCase();
+    }
+
+    // 🔓 Logout functionality
+    document.querySelectorAll(".logout-btn").forEach(btn => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        localStorage.removeItem("isLoggedIn");
+        // (optional) localStorage.removeItem("user");
+        window.location.href = "login.html";
+      });
+    });
+
+    // 🌐 POST STORAGE (localStorage)
+    const POSTS_STORAGE_KEY = "socialx_posts_v1";
+    let posts = [];
+
+    function savePosts() {
+      try {
+        localStorage.setItem(POSTS_STORAGE_KEY, JSON.stringify(posts));
+      } catch (e) {
+        console.error("Error saving posts", e);
+      }
+    }
+
+    function loadPosts() {
+      try {
+        const raw = localStorage.getItem(POSTS_STORAGE_KEY);
+        if (!raw) return null;
+        const data = JSON.parse(raw);
+        if (!Array.isArray(data)) return null;
+        return data;
+      } catch (e) {
+        console.error("Error loading posts", e);
+        return null;
+      }
+    }
+
+    function buildPostCardElement(post) {
+      const card = document.createElement("div");
+      card.className = "card feed-card";
+      card.dataset.postId = post.id;
+      card.dataset.timestamp = String(post.createdAt || Date.now());
+      card.dataset.likes = String(post.likes || 0);
+
+      const authorName = post.authorName || "User";
+      const initials =
+        post.authorInitials ||
+        authorName
+          .split(" ")
+          .filter(Boolean)
+          .map(w => w[0].toUpperCase())
+          .join("");
+
+      const likes = post.likes || 0;
+      const likeText = likes + " likes";
+
+      const createdDate = post.createdAt ? new Date(post.createdAt) : new Date();
+      const timeLabel = createdDate.toLocaleString();
+
+      const safeText = (post.content || "")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\n/g, "<br>");
+
+      const imgPart = post.imageUrl
+        ? `
+        <div class="feed-image-placeholder mb-2">
+          <img
+            src="${post.imageUrl}"
+            alt="Post image"
+            class="w-100 h-100"
+            style="object-fit: cover; border-radius: 0.75rem;"
+            onerror="this.parentElement.style.display='none';"
+          />
+        </div>
+      `
+        : "";
+
+      const metaText = post.metaText || "0 comments • 0 shares";
+
+      card.innerHTML = `
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex">
+              <div class="feed-user-avatar me-2">${initials}</div>
+              <div>
+                <div class="fw-semibold">${authorName}</div>
+                <small class="text-muted">${timeLabel}</small>
+              </div>
+            </div>
+            <div class="d-flex align-items-start gap-1">
+              <button class="btn btn-sm btn-light rounded-circle">
+                <i class="bi bi-three-dots"></i>
+              </button>
+              <button class="btn btn-sm btn-light rounded-circle delete-post-btn" title="Delete post">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          ${safeText ? `<p class="mb-2">${safeText}</p>` : ""}
+          ${imgPart}
+          <div class="d-flex justify-content-between text-muted small mb-2">
+            <span>${likeText}</span>
+            <span>${metaText}</span>
+          </div>
+          <hr class="my-2" />
+          <div class="d-flex justify-content-between post-actions">
+            <button class="btn btn-sm btn-light flex-fill me-1 ${post.liked ? "liked" : ""}">
+              <i class="bi bi-hand-thumbs-up me-1"></i>Like
+            </button>
+            <button class="btn btn-sm btn-light flex-fill mx-1">
+              <i class="bi bi-chat-left me-1"></i>Comment
+            </button>
+            <button class="btn btn-sm btn-light flex-fill ms-1">
+              <i class="bi bi-arrow-90deg-right me-1"></i>Share
+            </button>
+          </div>
+        </div>
+      `;
+
+      if (post.liked) {
+        const likeBtn = card.querySelector(".post-actions button");
+        if (likeBtn) likeBtn.style.color = "#0d6efd";
+      }
+
+      return card;
+    }
+
+    function renderAllPosts() {
+      const feedContainer = document.getElementById("feedContainer");
+      if (!feedContainer) return;
+      feedContainer.innerHTML = "";
+      posts.forEach(post => {
+        const card = buildPostCardElement(post);
+        feedContainer.appendChild(card);
+      });
+      if (typeof window.applyFeedSort === "function") {
+        window.applyFeedSort();
+      }
+    }
+
+    // 🔄 INIT POSTS: from localStorage or from existing DOM
+    (function initPosts() {
+      const feedContainer = document.getElementById("feedContainer");
+      if (!feedContainer) return;
+
+      const stored = loadPosts();
+      if (stored && stored.length) {
+        posts = stored;
+        renderAllPosts();
+        return;
+      }
+
+      // First time: use existing DOM cards as seed
+      const cards = Array.from(feedContainer.querySelectorAll(".card.feed-card"));
+      const now = Date.now();
+      posts = cards.map((card, index) => {
+        const authorName =
+          card.querySelector(".fw-semibold")?.textContent?.trim() || "User";
+        const p = card.querySelector("p");
+        const content = p ? p.textContent.trim() : "";
+        const likesSpan = card.querySelector(".text-muted.small span");
+        const likes = likesSpan ? parseInt(likesSpan.textContent) || 0 : 0;
+        const metaSpans = card.querySelectorAll(".text-muted.small span");
+        const metaText =
+          metaSpans[1]?.textContent?.trim() || "0 comments • 0 shares";
+        const img = card.querySelector(".feed-image-placeholder img");
+        const imageUrl = img ? img.getAttribute("src") : null;
+        const createdAt = now - index * 60 * 60 * 1000; // 1 hour gap
+
+        return {
+          id: "seed-" + index + "-" + now,
+          authorName,
+          authorInitials: authorName
+            .split(" ")
+            .filter(Boolean)
+            .map(w => w[0].toUpperCase())
+            .join(""),
+          content,
+          imageUrl,
+          createdAt,
+          likes,
+          liked: false,
+          metaText
+        };
+      });
+
+      savePosts();
+      renderAllPosts();
+    })();
+
+    // 🔀 SORT & FILTER CONTROL
+    (function () {
+      const select = document.getElementById("sortFilter");
+      const feedContainer = document.getElementById("feedContainer");
+      if (!select || !feedContainer) return;
+
+      function applySort() {
+        const mode = select.value;
+        const cards = Array.from(feedContainer.querySelectorAll(".card.feed-card"));
+
+        cards.sort((a, b) => {
+          const ta = parseInt(a.dataset.timestamp) || 0;
+          const tb = parseInt(b.dataset.timestamp) || 0;
+          const la = parseInt(a.dataset.likes) || 0;
+          const lb = parseInt(b.dataset.likes) || 0;
+
+          if (mode === "latest") return tb - ta;
+          if (mode === "oldest") return ta - tb;
+          if (mode === "liked") {
+            if (lb !== la) return lb - la;
+            return tb - ta; // tie-breaker ⇒ newer first
+          }
+          return 0;
+        });
+
+        cards.forEach(card => feedContainer.appendChild(card));
+      }
+
+      select.addEventListener("change", applySort);
+
+      window.applyFeedSort = applySort;
+      applySort(); // initial
+    })();
+
+    // ❤️ LIKE TOGGLE FEATURE (with localStorage sync)
+    (function () {
+      function setupLikeButtons(scope = document) {
+        scope.querySelectorAll(".post-actions button").forEach(btn => {
+          if (btn.dataset.likeSetup) return;
+          btn.dataset.likeSetup = "true";
+
+          if (btn.innerHTML.includes("hand-thumbs-up")) {
+            btn.addEventListener("click", function () {
+              const card = btn.closest(".feed-card");
+              const stats = card?.querySelector(".text-muted.small span");
+              if (!stats || !card) return;
+
+              let currentLikes = parseInt(stats.textContent) || 0;
+
+              if (btn.classList.contains("liked")) {
+                currentLikes = 0;
+                btn.classList.remove("liked");
+                btn.style.color = "";
+              } else {
+                currentLikes = 1;
+                btn.classList.add("liked");
+                btn.style.color = "#0d6efd";
+              }
+
+              stats.textContent = currentLikes + " likes";
+              card.dataset.likes = String(currentLikes);
+
+              const postId = card.dataset.postId;
+              if (postId && Array.isArray(posts)) {
+                const p = posts.find(p => p.id === postId);
+                if (p) {
+                  p.likes = currentLikes;
+                  p.liked = btn.classList.contains("liked");
+                  savePosts();
+                }
+              }
+
+              const sortSelect = document.getElementById("sortFilter");
+              if (
+                sortSelect &&
+                sortSelect.value === "liked" &&
+                typeof window.applyFeedSort === "function"
+              ) {
+                window.applyFeedSort();
+              }
+            });
+          }
+        });
+      }
+
+      setupLikeButtons();
+
+      const feedContainer = document.getElementById("feedContainer");
+      if (feedContainer) {
+        const observer = new MutationObserver(() => {
+          setupLikeButtons(feedContainer);
+        });
+        observer.observe(feedContainer, { childList: true });
+      }
+    })();
+
+    // 🗑 DELETE POST FEATURE (with localStorage sync)
+    (function () {
+      function setupDeleteButtons(scope = document) {
+        scope.querySelectorAll(".delete-post-btn").forEach(btn => {
+          if (btn.dataset.deleteSetup) return;
+          btn.dataset.deleteSetup = "true";
+
+          btn.addEventListener("click", function () {
+            const card = btn.closest(".feed-card");
+            if (!card) return;
+            const ok = window.confirm("Delete this post?");
+            if (!ok) return;
+
+            const postId = card.dataset.postId;
+            if (postId && Array.isArray(posts)) {
+              posts = posts.filter(p => p.id !== postId);
+              savePosts();
+            }
+            card.remove();
+          });
+        });
+      }
+
+      setupDeleteButtons();
+
+      const feedContainer = document.getElementById("feedContainer");
+      if (feedContainer) {
+        const observer = new MutationObserver(() => {
+          setupDeleteButtons(feedContainer);
+        });
+        observer.observe(feedContainer, { childList: true });
+      }
+    })();
+
+    // 📝 CREATE POST FEATURE (text + image URL + emojis + localStorage)
+    (function () {
+      const postText = document.getElementById("postText");
+      const postImageUrl = document.getElementById("postImageUrl");
+      const createPostBtn = document.getElementById("createPostBtn");
+      const feedContainer = document.getElementById("feedContainer");
+
+      if (!postText || !createPostBtn || !feedContainer || !user) return;
+
+      function handleCreatePost() {
+        const text = postText.value.trim();
+        const imageUrl = postImageUrl.value.trim();
+
+        if (!text && !imageUrl) return;
+
+        const createdAt = Date.now();
+        const authorName = user.name || "User";
+        const authorInitials = authorName
+          .split(" ")
+          .filter(Boolean)
+          .map(w => w[0].toUpperCase())
+          .join("");
+
+        const newPost = {
+          id: "post-" + createdAt + "-" + Math.random().toString(36).slice(2, 8),
+          authorName,
+          authorInitials,
+          content: text,
+          imageUrl: imageUrl || null,
+          createdAt,
+          likes: 0,
+          liked: false,
+          metaText: "0 comments • 0 shares"
+        };
+
+        posts.push(newPost);
+        savePosts();
+
+        const card = buildPostCardElement(newPost);
+        feedContainer.prepend(card);
+
+        if (typeof window.applyFeedSort === "function") {
+          window.applyFeedSort();
+        }
+
+        postText.value = "";
+        postImageUrl.value = "";
+      }
+
+      createPostBtn.addEventListener("click", handleCreatePost);
+
+      postText.addEventListener("keydown", function (e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+          e.preventDefault();
+          handleCreatePost();
+        }
+      });
+
+      document.querySelectorAll(".emoji-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          postText.value += btn.textContent;
+          postText.focus();
+        });
+      });
+    })();
+
+    // 🔍 SEARCH POSTS (TOP NAVBAR SEARCH)
+    (function () {
+      const searchInput = document.getElementById("searchPostsInput");
+      const feedContainer = document.getElementById("feedContainer");
+      if (!searchInput || !feedContainer) return;
+
+      searchInput.addEventListener("input", function () {
+        const query = this.value.toLowerCase();
+        const cards = feedContainer.querySelectorAll(".card.feed-card");
+
+        cards.forEach(card => {
+          const text = card.innerText.toLowerCase();
+          if (!query || text.includes(query)) {
+            card.style.display = "";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
